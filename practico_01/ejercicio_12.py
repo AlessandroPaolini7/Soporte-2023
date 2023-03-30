@@ -24,8 +24,8 @@ def combinar_basico(nombres: List[str], precios: List[float]) -> Tuple[Any]:
     if(len(nombre_articulos) != len(precio_articulos)):
         return "Error"
     else:
-        for i in range(len(nombres)):
-            lista.append((nombres[i], precios[i]))
+        for i in range(len(nombre_articulos)):
+            lista.append((nombre_articulos[i], precio_articulos[i]))
     return tuple(lista)
 
 #Solución sin for (no se si es la correcta)
