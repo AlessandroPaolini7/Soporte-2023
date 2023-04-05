@@ -49,13 +49,19 @@ from functools import partial
 
 
 def medir_tiempo(func: Callable[[], int]) -> Tuple[int, float]:
-    """Toma una función y devuelve una dupla conteniendo en su primer elemento
+    """Toma una función y devuelve una tupla conteniendo en su primer elemento
     el resultado de la función y en su segundo elemento el tiempo de ejecución.
 
     Restricción: La función no debe tomar parámetros y por lo tanto se
     recomienda usar partial.
     """
-    pass # Completar
+    
+    start = perf_counter()
+    result = func()
+    elapsed = perf_counter() - start
+    output_tuple = (result, elapsed)
+    return output_tuple
+    
 
 
 # NO MODIFICAR - INICIO
@@ -65,7 +71,7 @@ assert result == 28671512
 # NO MODIFICAR - FIN
 
 
-###############################################################################
+##############################################################################
 
 
 def medir_tiempo(func: Callable[[Sequence[int], int], int]) -> Callable[[Sequence[int], int], Tuple[int, float]]:
@@ -73,8 +79,16 @@ def medir_tiempo(func: Callable[[Sequence[int], int], int]) -> Callable[[Sequenc
     partial. En este caso se debe devolver una función que devuelva la tupla y
     tome una cantidad arbitraria de parámetros.
     """
-    pass # Completar
-
+    def calcular_posibilidades(lista: Sequence[int], limite: int) -> Tuple[int, float]:
+        start = perf_counter()
+        result = func(lista, limite)
+        elapsed = perf_counter() - start
+        output_tuple = (result, elapsed)
+        return output_tuple
+    return calcular_posibilidades
+# En este caso para usar closures armamos una funcion dentro de otra funcion que es la que vamos a devolver 
+# y que va a tomar los parametros que necesitamos para calcular el tiempo de ejecucion de la funcion que
+# le pasamos como parametro a la funcion medir_tiempo.
 
 # NO MODIFICAR - INICIO
 calcular_posibilidades_nueva = medir_tiempo(calcular_posibilidades)
@@ -116,113 +130,113 @@ assert result == 28671512
 ###############################################################################
 
 
-"""Un caso real de este patrón es guardar en una memoria cache auxiliar
-resultados de funciones que son muy costosas computacionalmente. A este
-patrón se lo suele denominar memoized
-"""
+# """Un caso real de este patrón es guardar en una memoria cache auxiliar
+# resultados de funciones que son muy costosas computacionalmente. A este
+# patrón se lo suele denominar memoized
+# """
 
 
-def memoized(func):
-    """Escribir una función memoized y utilizarla como decorador junto con medir_
-    tiempo para la función calcular posibilidades. Prestar atención a los tiempo
-    de ejecución
-    """
-    pass # Completar
+# def memoized(func):
+#     """Escribir una función memoized y utilizarla como decorador junto con medir_
+#     tiempo para la función calcular posibilidades. Prestar atención a los tiempo
+#     de ejecución
+#     """
+#     pass # Completar
 
 
-@medir_tiempo
-@memoized
-def calcular_posibilidades(lista: Sequence[int], limite: int) -> int:
-    count = 0
-    for i in range(limite):
-        for _ in permutations(lista, i):
-            count += 1
-    return count
+# @medir_tiempo
+# @memoized
+# def calcular_posibilidades(lista: Sequence[int], limite: int) -> int:
+#     count = 0
+#     for i in range(limite):
+#         for _ in permutations(lista, i):
+#             count += 1
+#     return count
 
 
-# NO MODIFICAR - INICIO
-print()
+# # NO MODIFICAR - INICIO
+# print()
 
-result, elapsed = calcular_posibilidades(lista, limite)
-print(f"Tiempo: {elapsed:2.2f} segundos - Con Memoized - 1ra ejecución")
-assert result == 28671512
+# result, elapsed = calcular_posibilidades(lista, limite)
+# print(f"Tiempo: {elapsed:2.2f} segundos - Con Memoized - 1ra ejecución")
+# assert result == 28671512
 
-result, elapsed = calcular_posibilidades(lista, limite)
-print(f"Tiempo: {elapsed:2.8f} segundos - Con Memoized - 2da ejecución")
-assert result == 28671512
+# result, elapsed = calcular_posibilidades(lista, limite)
+# print(f"Tiempo: {elapsed:2.8f} segundos - Con Memoized - 2da ejecución")
+# assert result == 28671512
 
-result, elapsed = calcular_posibilidades(lista, limite)
-print(f"Tiempo: {elapsed:2.8f} segundos - Con Memoized - 3ra ejecución")
-assert result == 28671512
-# NO MODIFICAR - FIN
-
-
-###############################################################################
+# result, elapsed = calcular_posibilidades(lista, limite)
+# print(f"Tiempo: {elapsed:2.8f} segundos - Con Memoized - 3ra ejecución")
+# assert result == 28671512
+# # NO MODIFICAR - FIN
 
 
-"""CHALLENGE OPCIONAL: Esta es otra ocasión donde las funciones recursivas
-tienen ventajas adicionales  ya que al utilizar el patrón memoized, las
-funciones recursivas permiten ejecuciones más rápidas para las llamadas
-sucesivas.
-"""
+# ###############################################################################
 
 
-@medir_tiempo
-@memoized
-def calcular_posibilidades_recursiva(lista: Sequence[int], limite: int) -> int:
-    """Re-Escribir de manera recursiva"""
-    pass # Completar
+# """CHALLENGE OPCIONAL: Esta es otra ocasión donde las funciones recursivas
+# tienen ventajas adicionales  ya que al utilizar el patrón memoized, las
+# funciones recursivas permiten ejecuciones más rápidas para las llamadas
+# sucesivas.
+# """
 
 
-# NO MODIFICAR - INICIO
-if __name__ == "__main__":
-    print()
+# @medir_tiempo
+# @memoized
+# def calcular_posibilidades_recursiva(lista: Sequence[int], limite: int) -> int:
+#     """Re-Escribir de manera recursiva"""
+#     pass # Completar
 
-    result, elapsed = calcular_posibilidades_recursiva(lista, limite)
-    print(f"Tiempo: {elapsed:2.2f} segundos - Recursiva Memoized - 1ra Ejecución")
-    assert result == 28671512
 
-    result, elapsed = calcular_posibilidades_recursiva(lista, limite)
-    print(f"Tiempo: {elapsed:2.8f} segundos - Recursiva Memoized - 2da Ejecución")
-    assert result == 28671512
+# # NO MODIFICAR - INICIO
+# if __name__ == "__main__":
+#     print()
 
-    print()
+#     result, elapsed = calcular_posibilidades_recursiva(lista, limite)
+#     print(f"Tiempo: {elapsed:2.2f} segundos - Recursiva Memoized - 1ra Ejecución")
+#     assert result == 28671512
 
-    result, elapsed = calcular_posibilidades(lista, limite + 1)
-    print(f"Tiempo: {elapsed:2.2f} segundos - Bucles Memoized - Parametro + 1")
-    assert result == 68588312
+#     result, elapsed = calcular_posibilidades_recursiva(lista, limite)
+#     print(f"Tiempo: {elapsed:2.8f} segundos - Recursiva Memoized - 2da Ejecución")
+#     assert result == 28671512
 
-    result, elapsed = calcular_posibilidades_recursiva(lista, limite + 1)
-    print(f"Tiempo: {elapsed:2.8f} segundos - Recursiva Memoized - Parametro + 1")
-    assert result == 68588312
+#     print()
 
-    print()
+#     result, elapsed = calcular_posibilidades(lista, limite + 1)
+#     print(f"Tiempo: {elapsed:2.2f} segundos - Bucles Memoized - Parametro + 1")
+#     assert result == 68588312
 
-    result, elapsed = calcular_posibilidades(lista, limite + 2)
-    print(f"Tiempo: {elapsed:2.2f} segundos - Bucles Memoized - Parametro + 2")
-    assert result == 108505112
+#     result, elapsed = calcular_posibilidades_recursiva(lista, limite + 1)
+#     print(f"Tiempo: {elapsed:2.8f} segundos - Recursiva Memoized - Parametro + 1")
+#     assert result == 68588312
 
-    result, elapsed = calcular_posibilidades_recursiva(lista, limite + 2)
-    print(f"Tiempo: {elapsed:2.8f} segundos - Recursiva Memoized - Parametro + 2")
-    assert result == 108505112
+#     print()
 
-    print()
+#     result, elapsed = calcular_posibilidades(lista, limite + 2)
+#     print(f"Tiempo: {elapsed:2.2f} segundos - Bucles Memoized - Parametro + 2")
+#     assert result == 108505112
 
-    result, elapsed = calcular_posibilidades(lista, limite - 1)
-    print(f"Tiempo: {elapsed:2.2f} segundos - Bucles Memoized - Parametro - 1")
-    assert result == 8713112
+#     result, elapsed = calcular_posibilidades_recursiva(lista, limite + 2)
+#     print(f"Tiempo: {elapsed:2.8f} segundos - Recursiva Memoized - Parametro + 2")
+#     assert result == 108505112
 
-    result, elapsed = calcular_posibilidades_recursiva(lista, limite - 1)
-    print(f"Tiempo: {elapsed:2.8f} segundos - Recursiva Memoized - Parametro - 1")
-    assert result == 8713112
+#     print()
 
-    print()
+#     result, elapsed = calcular_posibilidades(lista, limite - 1)
+#     print(f"Tiempo: {elapsed:2.2f} segundos - Bucles Memoized - Parametro - 1")
+#     assert result == 8713112
 
-    result, elapsed = calcular_posibilidades(lista, limite - 2)
-    print(f"Tiempo: {elapsed:2.2f} segundos - Bucles Memoized - Parametro - 2")
-    assert result == 2060312
+#     result, elapsed = calcular_posibilidades_recursiva(lista, limite - 1)
+#     print(f"Tiempo: {elapsed:2.8f} segundos - Recursiva Memoized - Parametro - 1")
+#     assert result == 8713112
 
-    result, elapsed = calcular_posibilidades_recursiva(lista, limite - 2)
-    print(f"Tiempo: {elapsed:2.8f} segundos - Recursiva Memoized - Parametro - 2")
-    assert result == 2060312
-# NO MODIFICAR - FIN
+#     print()
+
+#     result, elapsed = calcular_posibilidades(lista, limite - 2)
+#     print(f"Tiempo: {elapsed:2.2f} segundos - Bucles Memoized - Parametro - 2")
+#     assert result == 2060312
+
+#     result, elapsed = calcular_posibilidades_recursiva(lista, limite - 2)
+#     print(f"Tiempo: {elapsed:2.8f} segundos - Recursiva Memoized - Parametro - 2")
+#     assert result == 2060312
+# # NO MODIFICAR - FIN
