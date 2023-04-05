@@ -21,7 +21,12 @@ def generar_pares_clousure(initial: int = 0) -> Callable[[], int]:
         - Usar closures
         - Usar el modificador nonlocal
     """
-    pass # Completar
+    def generar_pares():
+        nonlocal initial
+        initial += 2
+        return initial - 2
+    
+    return generar_pares
 
 
 # NO MODIFICAR - INICIO
@@ -45,7 +50,11 @@ def generar_pares_generator(initial: int = 0) -> Iterator[int]:
     """Re-Escribir utilizando Generadores
     Referencia: https://docs.python.org/3/howto/functional.html?highlight=generator#generators
     """
-    pass # Completar
+    while True:
+        yield initial
+        initial += 2
+
+
 
 
 # NO MODIFICAR - INICIO
@@ -56,39 +65,38 @@ assert next(generador_pares) == 4
 # NO MODIFICAR - FIN
 
 
-###############################################################################
+##############################################################################
 
 
-def generar_pares_generator_send(initial: int = 0) -> Iterator[int]:
-    """CHALLENGE OPCIONAL: Re-Escribir utilizando send para saltear numeros"""
-    pass # Completar
+# def generar_pares_generator_send(initial: int = 0) -> Iterator[int]:
+#     """CHALLENGE OPCIONAL: Re-Escribir utilizando send para saltear numeros"""
 
 
-# NO MODIFICAR - INICIO
-if __name__ == "__main__":
-    generador_pares = generar_pares_generator_send()
-    assert next(generador_pares) == 0
-    assert next(generador_pares) == 2
-    assert next(generador_pares) == 4
-    assert generador_pares.send(10) == 10
-    assert next(generador_pares) == 12
-    assert next(generador_pares) == 14
-    assert next(generador_pares) == 16
-# NO MODIFICAR - FIN
+# # NO MODIFICAR - INICIO
+# if __name__ == "__main__":
+#     generador_pares = generar_pares_generator_send()
+#     assert next(generador_pares) == 0
+#     assert next(generador_pares) == 2
+#     assert next(generador_pares) == 4
+#     assert generador_pares.send(10) == 10
+#     assert next(generador_pares) == 12
+#     assert next(generador_pares) == 14
+#     assert next(generador_pares) == 16
+# # NO MODIFICAR - FIN
 
 
-###############################################################################
+##############################################################################
 
 
-def generar_pares_delegados(initial: int = 0) -> Iterator[int]:
-    """CHALLENGE OPCIONAL: Re-Escribir utilizando Generadores delegados (yield from)"""
-    pass # Completar
+# # def generar_pares_delegados(initial: int = 0) -> Iterator[int]:
+# #     """CHALLENGE OPCIONAL: Re-Escribir utilizando Generadores delegados (yield from)"""
+# #     pass # Completar
 
 
-# NO MODIFICAR - INICIO
-if __name__ == "__main__":
-    generador_pares = generar_pares_delegados()
-    assert next(generador_pares) == 0
-    assert next(generador_pares) == 2
-    assert next(generador_pares) == 4
-# NO MODIFICAR - FIN
+# # NO MODIFICAR - INICIO
+# # if __name__ == "__main__":
+# #     generador_pares = generar_pares_delegados()
+# #     assert next(generador_pares) == 0
+# #     assert next(generador_pares) == 2
+# #     assert next(generador_pares) == 4
+# # NO MODIFICAR - FIN
