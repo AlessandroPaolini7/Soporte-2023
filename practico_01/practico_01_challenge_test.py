@@ -80,3 +80,5 @@ def test_asserts_ejercicio_15():
 
     result, elapsed = calcular_posibilidades_recursiva(lista, limite - 2)
     assert result == 2060312
+
+
